@@ -1,0 +1,17 @@
+# node_modules
+node_modules
+
+# npm logs
+npm-debug.log*
+
+# yarn logs
+yarn-debug.log*
+yarn-error.log*
+
+# Логи
+*.log
+
+# Прочие
+package-lock.json
+yarn.lock
+
