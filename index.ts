@@ -1,6 +1,21 @@
-const isBirthdayData: boolean = true; // Фиксируем тип данных boolean
-let ageData: number = 40;
-const userNameData: string = "John"; // Фиксируем тип данных string
+// const isBirthdayData: boolean = true; // Фиксируем тип данных boolean
+// let ageData: number = 40;
+// const userNameData: string = "John"; // Фиксируем тип данных string
+
+let salary: number; // Фиксируем тип данных number
+salary = 5000; // Задаем значение для глобальной переменной
+
+// Статичные данные из JSON (для примеры)
+const userData =
+    '{"isBirthdayData": true, "ageData": 40, "userNameData": "John"}';
+
+// Парсим userData
+const userObj: {
+    isBirthdayData: boolean;
+    ageData: number;
+    userNameData: string;
+} = JSON.parse(userData);
+console.log(userObj.smt()); // any
 
 // Стандартная функция
 // Передаем аргументы в функцию указывая тип данных каждой переменной
