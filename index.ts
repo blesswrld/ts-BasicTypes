@@ -1,25 +1,45 @@
 const isBirthdayData: boolean = true; // Фиксируем тип данных boolean
-let ageData: number = 40;
+let ageData: number = 40; // Фиксируем тип данных number
 const userNameData: string = "John"; // Фиксируем тип данных string
+
+// Объект с 3 свойствами
+const userData = {
+    isBirthdayData: true, // boolean
+    ageData: 40, // number
+    userNameData: "John", // string
+    messages: {
+        error: "Error", // Значение свойства error
+    }, // Вложенный объект для теста деструктуризации
+};
 
 // Стрелочная функция
 const createError = (msg: string) => {
     throw new Error(msg); // выбрасываем ошибку с типом never (который ничего не возвращает и ничего не содержит)
 };
 
-// Стрелочная функция
-function logBrtMsg(isBirthday: boolean, age: number, userName: string): string {
-    // указываем тип выводимых данных : string, но с обязательным условием (НАЛИЧИЕ else)
-    if (isBirthday === true) {
-        // выводим в консоль и приводом к верхнему регистру при помощи метода toUpperCase, (засчет фиксированного типа данных на переменной userName)
-        return `Congrats ${userName.toUpperCase()}, age: ${age + 1}`;
-    } else if (isBirthday === false) {
-        return "Too bad";
+function logBrtMsg({
+    // Выполняем деструктуризацию
+    isBirthdayData,
+    ageData,
+    userNameData,
+    messages: { error },
+}: {
+    // Вытаскиваем свойства из объекта userData
+    isBirthdayData: boolean;
+    ageData: number;
+    userNameData: string;
+    messages: { error: string }; // Вытаскиваем вложенный объект messages и фиксируем его тип
+}): string {
+    // Указываем тип выводимых данных : string, но с обязательным условием (НАЛИЧИЕ else)
+    if (isBirthdayData) {
+        // Выводим в консоль и приводом к верхнему регистру при помощи метода toUpperCase, (засчет фиксированного типа данных на переменной userName)
+        return `Congrats ${userNameData.toUpperCase()}, age: ${ageData + 1}`;
+    } else {
+        return createError(error); // Вызываем функцию которая выбрасывает ошибку из вложенного объекта для прекращения условий
     }
-    return createError("Error"); // Вызываем функцию которая выбрасывает ошибку для прекращения условий
 }
 
-logBrtMsg(isBirthdayData, 40, userNameData);
+console.log(logBrtMsg(userData)); // Выводим в консоль результат
 
 // const smth: never = null;
 
