@@ -41,6 +41,32 @@ function logBrtMsg({
 
 console.log(logBrtMsg(userData)); // Выводим в консоль результат
 
+// Фиксируем тип данных string на массиве (чтобы не передавались другие типы данных)
+const departments: string[] = ["dev", "design", "marketing"]; // Массив с данными об отделах разработки
+
+const department = departments[0]; // массив string
+
+// departments.push(5);
+const report = departments
+    .filter((d: string) => d !== "dev") // Фильтруем отделы по 'dev'
+    // Если условие ! не выполнилось вызываем метод map() и добавляем для 'dev' отдела строку - done
+    .map(
+        (d: string) => `
+    ${d} - done
+`
+    );
+
+// Фиксируем тип данных number на под-массиве (чтобы не передавались другие типы данных)
+const nums: number[][] = [
+    // Массив для комплексных данных
+    [3, 2, 1],
+    [1, 2, 3],
+    // ...
+];
+
+const [firstElem] = report; // Вытаскиваем первый элемент из переменной report
+console.log(firstElem); // Выводим в консоль ('dev' отпадает из-за фильтрации)
+
 // const smth: never = null;
 
 // tsc index.ts (команда в терминале для запуска компилятора ts кода)
