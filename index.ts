@@ -1,63 +1,61 @@
-// Данные об использовании электричества: показания, единицы, режим
-const electricityUserData = {
-    readings: 95,
-    units: "kWt",
-    mode: "double",
+// Объект с 3 свойствами
+const userData = {
+    isBirthdayData: true, // boolean
+    ageData: 40, // number
+    userNameData: "John", // string
+    messages: {
+        error: "Error", // Значение свойства error
+    }, // Вложенный объект для теста деструктуризации
 };
 
-// Данные об использовании воды: показания, единицы
-const waterUserData = {
-    readings: 3,
-    units: "m3",
+// Tuples (Кортежи)
+// Описываем структуру данных и фиксируем их тип (по-порядку)
+const userDataTuple: [...boolean[], number, string] = [
+    // Разворачиваем массив булиновых типов используя Spread оператор (для доп.значений)
+    true,
+    false,
+    40,
+    "John",
+];
+// userDataTuple[3];
+// userDataTuple.push(50);
+// userDataTuple[3];
+
+const res = userDataTuple.map((t) => `${t} - data`);
+
+// Назначаем свойства для значений кортежа по-порядку
+const [bthd, age, userName] = userDataTuple;
+
+// Стрелочная функция
+const createError = (msg: string) => {
+    throw new Error(msg); // выбрасываем ошибку с типом never (который ничего не возвращает и ничего не содержит)
 };
 
-// Тарифы: электричество (0.45 €/кВт), вода (2 €/м³)
-const elRate = 0.45;
-const wRate = 2;
-
-// Массив для хранения платежей: [электричество, вода]
-const monthPayments: number[] = [0, 0];
-
-// Функция расчёта платежей
-const calculatePayments = (
-    { readings, mode }: { readings: number; mode: string }, // Деструктуризация данных электричества
-    wData: { readings: number }, // Данные воды
-    elRate: number, // Тариф электричества
-    wRate: number // Тариф воды
-) => {
-    // Если режим "double" и показания < 50, применяем скидку 30%
-    if (mode === "double" && readings < 50) {
-        monthPayments[0] = readings * elRate * 0.7;
+function logBrtMsg({
+    // Выполняем деструктуризацию
+    isBirthdayData,
+    ageData,
+    userNameData,
+    messages: { error },
+}: {
+    // Вытаскиваем свойства из объекта userData
+    isBirthdayData: boolean;
+    ageData: number;
+    userNameData: string;
+    messages: { error: string }; // Вытаскиваем вложенный объект messages и фиксируем его тип
+}): string {
+    // Указываем тип выводимых данных : string, но с обязательным условием (НАЛИЧИЕ else)
+    if (isBirthdayData) {
+        // Выводим в консоль и приводом к верхнему регистру при помощи метода toUpperCase, (засчет фиксированного типа данных на переменной userName)
+        return `Congrats ${userNameData.toUpperCase()}, age: ${ageData + 1}`;
     } else {
-        monthPayments[0] = readings * elRate;
+        return createError(error); // Вызываем функцию которая выбрасывает ошибку из вложенного объекта для прекращения условий
     }
-    // Платёж за воду: показания * тариф
-    monthPayments[1] = wData.readings * wRate;
-};
+}
 
-// Вызов функции для расчёта платежей
-calculatePayments(electricityUserData, waterUserData, elRate, wRate);
+console.log(logBrtMsg(userData)); // Выводим в консоль результат
 
-// Функция формирования счёта
-const sendInvoice = (
-    [el, water]: number[], // Деструктуризация платежей
-    electricityUserData: { readings: number; units: string }, // Данные электричества
-    waterUserData: { readings: number; units: string } // Данные воды
-): string => {
-    // Текст счёта с данными о потреблении и стоимости
-    const text = `    Hello!
-    This month you used ${electricityUserData.readings} ${electricityUserData.units} of electricity
-    It will cost: ${el}€
-    
-    This month you used ${waterUserData.readings} ${waterUserData.units} of water
-    It will cost: ${water}€`;
-
-    return text;
-};
-
-// Формирование и вывод счёта
-const invoice = sendInvoice(monthPayments, electricityUserData, waterUserData);
-console.log(invoice);
+// const smth: never = null;
 
 // tsc index.ts (команда в терминале для запуска компилятора ts кода)
 // tsc -help (команда в терминале для помощи с настройками)
